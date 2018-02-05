@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+// ## Eclipse: Set output folders for source folders ##
+eclipse {
+    classpath {
+        file {
+            whenMerged {
+                def srcFolder = entries.find { it.path == 'src/main/java' }
+                if (srcFolder != null) {
+	                srcFolder.output = "/build/classes/main"
+	            }
+
+                def testFolder = entries.find { it.path == 'src/test/java' }
+                if (testFolder != null) {
+	                testFolder.output = "/build/classes/test"
+                }
+            }
+        }
+        downloadJavadoc = true
+        downloadSources = true
+    }
+} 
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0' //MQTT Client
+	
+	compile 'org.projectlombok:lombok:1.16.20' // Annotations
+	
+	compile 'org.slf4j:slf4j-log4j12:1.7.25' // Logging 
+}
